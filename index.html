@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Karaoke Dashboard</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.11.0/jszip.min.js"></script>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<div class="app">
+  <header class="header">
+    <div class="brand">
+      <img src="logo.png" alt="logo" id="logo" onerror="this.style.display='none'">
+      <h1>Karaoke Dashboard</h1>
+    </div>
+    <div class="controls-top">
+      <button id="connectSpotify" class="btn liquid">Connect Spotify</button>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="bingoTab">Music Bingo</button>
+    <button class="tab-btn" data-tab="queueTab">Karaoke Queue</button>
+    <button class="tab-btn" data-tab="settingsTab">Settings</button>
+  </nav>
+
+  <main class="main">
+    <!-- BINGO TAB -->
+    <section id="bingoTab" class="tab active">
+      <button id="downloadAllBtn" class="btn liquid big" style="margin-bottom:12px;">Print All Cards</button>
+      <div class="panel">
+        <div class="panel-row">
+          <label>Playlist
+            <select id="playlistSelect"><option value="">(connect Spotify)</option></select>
+          </label>
+          <label>Cards
+            <input id="numCards" type="number" min="1" max="20" value="1">
+          </label>
+          <button id="generateBtn" class="btn liquid big">Generate Bingo Cards</button>
+        </div>
+        <div class="panel-note">Generated cards will appear below and can be downloaded.</div>
+        <div id="bingoPreview" style="display:flex; flex-wrap:wrap; gap:12px; margin-top:12px;"></div>
+      </div>
+    </section>
+
+    <!-- QUEUE TAB -->
+    <section id="queueTab" class="tab">
+      <div class="panel queue-panel">
+        <div class="queue-inputs">
+          <input id="singerName" placeholder="Singer name" type="text">
+          <input id="songTitle" placeholder="Song title" type="text">
+          <button id="addToQueue" class="btn liquid">Add to Queue</button>
+          <button id="clearQueue" class="btn outline">Clear Queue</button>
+        </div>
+        <div id="queueList" class="queue-list"></div>
+      </div>
+    </section>
+
+    <!-- SETTINGS TAB -->
+    <section id="settingsTab" class="tab">
+      <div class="panel">
+        <h3>Appearance</h3>
+        <label>Accent color
+          <input id="accentColor" type="color" value="#800000">
+        </label>
+        <h3>Spotify (optional)</h3>
+        <p>Use the server Connect button (top) to authorize — the server exchanges tokens. If you prefer manual token, paste here:</p>
+        <input id="manualToken" placeholder="Paste access token (optional)" type="text" style="width:100%;">
+        <button id="saveToken" class="btn liquid">Save Token (local)</button>
+        <p class="muted">Token expires in ~1 hour if issued by Spotify.</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<style>
+@media print {
+  body * {
+    visibility: hidden; /* hide everything */
+  }
+  #bingoPreview, #bingoPreview * {
+    visibility: visible; /* show only the bingo cards */
+  }
+  #bingoPreview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+  }
+  #bingoPreview canvas {
+    page-break-inside: avoid; /* prevent splitting */
+    margin: 0;
+    width: auto;
+    height: auto;
+  }
+
+  /* remove browser headers/footers */
+  @page {
+    margin: 0;
+  }
+}
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.11.0/jszip.min.js"></script>
+<script src="dashboard.js" defer></script>
+</body>
+</html>
